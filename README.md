@@ -38,8 +38,8 @@ Consola
   psql ventas <- /.../.../datos.sql
   Esto le creará la tabla y cargará los datos en la misma.
 - Para verificarlo puede accedear a la base de datos y realizar un select sobre la misma:
-  $ psql ventas
-  $ select * from ventas;
+  - $ psql ventas
+  - $ select * from ventas;
 
 
 
