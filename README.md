@@ -32,9 +32,9 @@ cargue el archivo datos.sql y ejecutelo. Esto lo deberá crear la tabla ventas c
 
 Consola
 - Ingrese con el usuario postgres (usuario por defecto de postgres)
-- Ingrese: psql {nombre_db} -> en este caso psql ventas
+- Ingrese: psql {nombre_db} // en este caso psql ventas
 - Y luego ejecute el sgte comando:
-  psql ventas < /.../.../datos.sql
+  psql ventas <- /.../.../datos.sql
 - Esto le creará la tabla y cargará los datos en la misma
 
 
