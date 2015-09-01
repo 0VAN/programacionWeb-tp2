@@ -1,8 +1,8 @@
-import REST.HelloService;
+import org.reflections.Reflections;
 
 import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.Path;
 import javax.ws.rs.core.Application;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,24 +17,17 @@ import java.util.Set;
  */
 @ApplicationPath("/service")
 public class MyApplication extends Application {
-    //    private Set<Object> singletons = new HashSet<Object>();
-//
-//    public MyApplication() {
-//        singletons.add(new HelloWorld());
-//    }
-//
-//    @Override
-//    public Set<Object> getSingletons() {
-//        return singletons;
-//    }
 
     /**
      * Setup the classes that the application server will use for deployment.
-     * Just add a new class so the application server can use it.
+     * Use Reflections to retrieve the classes annotated with @Path.
      *
      * @return the classes that the application server will use
      */
     public Set<Class<?>> getClasses() {
-        return new HashSet<Class<?>>(Arrays.asList(HelloService.class));
+
+        Reflections reflections = new Reflections("REST.SERVICE");
+        return new HashSet<Class<?>>(reflections.getTypesAnnotatedWith(Path.class));
+
     }
 }
