@@ -45,14 +45,14 @@ Consola
 
 Para agregar el DATASOURCE
 
-1 - Levantar JBOSS9 e ir a localhost:8080
-2 - Click en Administration Console
-3 - Click en datasource
-4 - Click en subsystems
-5 - Click en datasource, click en view
-6 - Click en add, seleccionar PostgresSQL Datasource
-7 - Escribir el nombre del datasource y su JDNI (por defecto usamos PostgresDS y java:/PostgresDS
-8 - Click en detected driver, seleccionar restService.war_org.postrgressql.Driver_9_3 o cualquier otro menos h2
-9 - Cambiar la ultima parte de la url a /ventas (por defecto esta con el nombre del datasource en nuestro caso PostgresDS)
-10 - Introducir usuario y contrasenha postgres postgres y darle test Connection. Si todo sale bien click en Done
+- Levantar JBOSS9 e ir a localhost:8080
+- Click en Administration Console
+- Click en datasource
+- Click en subsystems
+- Click en datasource, click en view
+- Click en add, seleccionar PostgresSQL Datasource
+- Escribir el nombre del datasource y su JDNI (por defecto usamos PostgresDS y java:/PostgresDS
+- Click en detected driver, seleccionar restService.war_org.postrgressql.Driver_9_3 o cualquier otro menos h2
+- Cambiar la ultima parte de la url a /ventas (por defecto esta con el nombre del datasource en nuestro caso PostgresDS)
+- Introducir usuario y contrasenha postgres postgres y darle test Connection. Si todo sale bien click en Done
 
