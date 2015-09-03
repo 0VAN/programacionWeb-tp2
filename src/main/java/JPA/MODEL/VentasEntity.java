@@ -1,25 +1,25 @@
 package JPA.MODEL;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 
-/**
- * Created by alex on 31/08/15.
- */
 @Entity
-@NamedQueries({
+@NamedQueries(value = {
         @NamedQuery(name = "ventas.findAll", query = "select v from VentasEntity v"),
-        @NamedQuery(name = "ventas.findById", query = "select v from VentasEntity v where v.id=:id")
+        @NamedQuery(name = "ventas.findById", query = "select v from VentasEntity v where v.id=:id"),
+        @NamedQuery(name = "ventas.findClienteAsc", query = "select v from VentasEntity v order by v.nombreCliente"),
+        @NamedQuery(name = "ventas.findClienteDesc", query = "select v from VentasEntity v order by v.nombreCliente DESC "),
+        @NamedQuery(name = "ventas.getTotalCount", query = "select count(v) from VentasEntity v"),
+
 })
 
 @Table(name = "ventas", schema = "public", catalog = "ventas")
 public class VentasEntity {
     private int id;
-    private Integer numero;
-    private Integer montoTotal;
+    private String numero;
+    private String montoTotal;
     private String nombreCliente;
-    private Integer rucCliente;
-    private Timestamp fecha;
+    private String rucClienteVenta;
+    private String fechaClienteVenta;
 
     @Id
     @Column(name = "id", nullable = false, insertable = true, updatable = true)
@@ -33,21 +33,21 @@ public class VentasEntity {
 
     @Basic
     @Column(name = "numero", nullable = true, insertable = true, updatable = true)
-    public Integer getNumero() {
+    public String getNumero() {
         return numero;
     }
 
-    public void setNumero(Integer numero) {
+    public void setNumero(String numero) {
         this.numero = numero;
     }
 
     @Basic
     @Column(name = "monto_total", nullable = true, insertable = true, updatable = true)
-    public Integer getMontoTotal() {
+    public String getMontoTotal() {
         return montoTotal;
     }
 
-    public void setMontoTotal(Integer montoTotal) {
+    public void setMontoTotal(String montoTotal) {
         this.montoTotal = montoTotal;
     }
 
@@ -63,22 +63,22 @@ public class VentasEntity {
 
     @Basic
     @Column(name = "ruc_cliente", nullable = true, insertable = true, updatable = true)
-    public Integer getRucCliente() {
-        return rucCliente;
+    public String getRucClienteVenta() {
+        return rucClienteVenta;
     }
 
-    public void setRucCliente(Integer rucCliente) {
-        this.rucCliente = rucCliente;
+    public void setRucClienteVenta(String rucCliente) {
+        this.rucClienteVenta = rucCliente;
     }
 
     @Basic
     @Column(name = "fecha", nullable = true, insertable = true, updatable = true)
-    public Timestamp getFecha() {
-        return fecha;
+    public String getFechaClienteVenta() {
+        return fechaClienteVenta;
     }
 
-    public void setFecha(Timestamp fecha) {
-        this.fecha = fecha;
+    public void setFechaClienteVenta(String fecha) {
+        this.fechaClienteVenta = fecha;
     }
 
     @Override
@@ -89,12 +89,12 @@ public class VentasEntity {
         VentasEntity that = (VentasEntity) o;
 
         if (id != that.id) return false;
-        if (fecha != null ? !fecha.equals(that.fecha) : that.fecha != null) return false;
+        if (fechaClienteVenta != null ? !fechaClienteVenta.equals(that.fechaClienteVenta) : that.fechaClienteVenta != null) return false;
         if (montoTotal != null ? !montoTotal.equals(that.montoTotal) : that.montoTotal != null) return false;
         if (nombreCliente != null ? !nombreCliente.equals(that.nombreCliente) : that.nombreCliente != null)
             return false;
         if (numero != null ? !numero.equals(that.numero) : that.numero != null) return false;
-        if (rucCliente != null ? !rucCliente.equals(that.rucCliente) : that.rucCliente != null) return false;
+        if (rucClienteVenta != null ? !rucClienteVenta.equals(that.rucClienteVenta) : that.rucClienteVenta != null) return false;
 
         return true;
     }
@@ -105,8 +105,8 @@ public class VentasEntity {
         result = 31 * result + (numero != null ? numero.hashCode() : 0);
         result = 31 * result + (montoTotal != null ? montoTotal.hashCode() : 0);
         result = 31 * result + (nombreCliente != null ? nombreCliente.hashCode() : 0);
-        result = 31 * result + (rucCliente != null ? rucCliente.hashCode() : 0);
-        result = 31 * result + (fecha != null ? fecha.hashCode() : 0);
+        result = 31 * result + (rucClienteVenta != null ? rucClienteVenta.hashCode() : 0);
+        result = 31 * result + (fechaClienteVenta != null ? fechaClienteVenta.hashCode() : 0);
         return result;
     }
 }
