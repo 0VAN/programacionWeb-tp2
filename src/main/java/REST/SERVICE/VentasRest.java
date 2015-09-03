@@ -65,8 +65,8 @@ public class VentasRest {
             @QueryParam(rucClienteOrden) String rucOrden)
     {
         try {
-            return Response.status(200).entity(ventasService.createQuery(nombreClienteVenta, fechaVenta, numeroVenta,
-                    montoVenta, rucVenta, allAttributes )).build();
+            return Response.status(200).entity(ventasService.createQueryByParameter(nombreClienteVenta, fechaVenta, numeroVenta,
+                    montoVenta, rucVenta, allAttributes, nombreOrden, montoOrden, numeroOrd, fechaOrd, rucOrden)).build();
         } catch (Exception e) {
             return Response.status(404).entity("404: No encontrado").build();
         }

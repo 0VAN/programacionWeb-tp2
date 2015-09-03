@@ -7,7 +7,7 @@ import javax.persistence.*;
         @NamedQuery(name = "ventas.findAll", query = "select v from VentasEntity v"),
         @NamedQuery(name = "ventas.findById", query = "select v from VentasEntity v where v.id=:id"),
 })
-@Table(name = "ventas", schema = "public", catalog = "ventas")
+@Table(name = "ventas", schema = "public")
 public class VentasEntity {
     private int id;
     private String numero;

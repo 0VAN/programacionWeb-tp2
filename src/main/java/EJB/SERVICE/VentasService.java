@@ -1,6 +1,7 @@
 package EJB.SERVICE;
 
 import JPA.MODEL.VentasEntity;
+import antlr.StringUtils;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -8,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -27,14 +29,13 @@ public class VentasService {
     private static final String numeroColumn = "numero";
     private static final String fechaColumn = "fecha";
     private static final String rucColumn = "ruc";
-    private static final String nombreColumn = "nombre";GASD
+    private static final String nombreColumn = "nombre";
 
     @PersistenceContext(unitName = "PU")
     private EntityManager entityManager;
 
     @Transactional
-    public void addVenta(VentasEntity ventasEntTEXI
-                         Eity) {
+    public void addVenta(VentasEntity ventasEntity) {
         entityManager.persist(ventasEntity);
     }
 
@@ -62,22 +63,103 @@ public class VentasService {
     /**
      * Recupera todas las ventas del cliente dado como parametro
      *
-     * @param nombre
-     * @return
      */
-    public List<VentasEntity> createQueryByNombre(String nombre) {
+    public List<VentasEntity> createQueryByParameter(String nombre, String fecha, String numero, String monto, String ruc, String allAttributes,
+    String nombreOrden,String montoOrden, String numeroOrd, String fechaOrd, String rucOrden) {
+
+        // Si se utiliza el filtrado global, se le otorga mayor prioridad que al resto de los filtros
+        if (isValid(allAttributes)) {
+
+            Query q = entityManager.createQuery("select v from VentasEntity v " +
+                    "where nombreCliente like CONCAT(:nombre, '%') or numero like CONCAT(:numero, '%') " +
+                    "or montoTotal like CONCAT(:monto, '%') or rucClienteVenta like CONCAT(:ruc, '%') " +
+                    "or fechaClienteVenta like CONCAT(:fecha, '%')");
+
+            setParameterQuery(q, nombreColumn, allAttributes);
+            setParameterQuery(q, montoColumn, allAttributes);
+            setParameterQuery(q, rucColumn, allAttributes);
+            setParameterQuery(q, fechaColumn, allAttributes);
+            setParameterQuery(q, numeroColumn, allAttributes);
+            return q.getResultList();
+        }
 
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<VentasEntity> criteria = cb.createQuery(VentasEntity.class);
 
         Root<VentasEntity> ventas = criteria.from(VentasEntity.class);
-        criteria.select(ventas).where(cb.equal(ventas.get("nombreCliente"), nombre));
+        criteria.select(ventas);
+
+        Expression<String> pathNombre = ventas.get("nombreCliente");
+        Expression<String> pathMonto = ventas.get("montoTotal");
+        Expression<String> pathFecha = ventas.get("fechaClienteVenta");
+        Expression<String> pathRuc = ventas.get("rucClienteVenta");
+        Expression<String> pathNumero = ventas.get("numero");
+
+        if(isValid(nombre)) {
+            criteria.where(cb.like(pathNombre, nombre.concat("%")));
+        }
+
+        if(isValid(fecha)) {
+            criteria.where(cb.like(pathFecha, fecha.concat("%")));
+        }
+
+        if(isValid(monto)) {
+            criteria.where(cb.like(pathMonto, monto.concat("%")));
+        }
+
+        if(isValid(ruc)) {
+            criteria.where(cb.like(pathRuc, ruc.concat("%")));
+        }
+
+        if(isValid(numero)) {
+            criteria.where(cb.like(pathNumero, numero.concat("%")));
+        }
+
+        // Ordenacion
+        if(isValid(numeroOrd)) {
+            if(ASC.equals(numeroOrd)) {
+                criteria.orderBy(cb.asc(ventas.get("numero")));
+            } else {
+                criteria.orderBy(cb.desc(ventas.get("numero")));
+            }
+        }
+
+        if(isValid(nombreOrden)) {
+            if(ASC.equals(nombreOrden)) {
+                criteria.orderBy(cb.asc(ventas.get("nombreCliente")));
+            } else {
+                criteria.orderBy(cb.desc(ventas.get("nombreCliente")));
+            }
+        }
+
+        if(isValid(montoOrden)) {
+            if(ASC.equals(montoOrden)) {
+                criteria.orderBy(cb.asc(ventas.get("montoTotal")));
+            } else {
+                criteria.orderBy(cb.desc(ventas.get("montoTotal")));
+            }
+        }
+
+        if(isValid(rucOrden)) {
+            if(ASC.equals(rucOrden)) {
+                criteria.orderBy(cb.asc(ventas.get("rucClienteVenta")));
+            } else {
+                criteria.orderBy(cb.desc(ventas.get("rucClienteVenta")));
+            }
+        }
+
+        if(isValid(fechaOrd)) {
+            if(ASC.equals(fechaOrd)) {
+                criteria.orderBy(cb.asc(ventas.get("fechaClienteVenta")));
+            } else {
+                criteria.orderBy(cb.desc(ventas.get("fechaClienteVenta")));
+            }
+        }
 
         return entityManager.createQuery(criteria).getResultList();
     }
 
-    /**
-     * Crea un query a la base de datos, recibe como parámetro todos los posibles valores de
+    /** Crea un query a la base de datos, recibe como parámetro todos los posibles valores de
      * filtros y ordenación de las columnas. Los parámetros son extraídos de la solicitud recibida
      * al servidor.
      *
