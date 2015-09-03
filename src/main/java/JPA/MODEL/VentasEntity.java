@@ -18,8 +18,8 @@ public class VentasEntity {
     private String numero;
     private String montoTotal;
     private String nombreCliente;
-    private String rucClienteVenta;
-    private String fechaClienteVenta;
+    private String rucCliente;
+    private String fecha;
 
     @Id
     @Column(name = "id", nullable = false, insertable = true, updatable = true)
@@ -63,22 +63,22 @@ public class VentasEntity {
 
     @Basic
     @Column(name = "ruc_cliente", nullable = true, insertable = true, updatable = true)
-    public String getRucClienteVenta() {
-        return rucClienteVenta;
+    public String getRucCliente() {
+        return rucCliente;
     }
 
-    public void setRucClienteVenta(String rucCliente) {
-        this.rucClienteVenta = rucCliente;
+    public void setRucCliente(String rucCliente) {
+        this.rucCliente = rucCliente;
     }
 
     @Basic
     @Column(name = "fecha", nullable = true, insertable = true, updatable = true)
-    public String getFechaClienteVenta() {
-        return fechaClienteVenta;
+    public String getFecha() {
+        return fecha;
     }
 
-    public void setFechaClienteVenta(String fecha) {
-        this.fechaClienteVenta = fecha;
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 
     @Override
@@ -89,12 +89,12 @@ public class VentasEntity {
         VentasEntity that = (VentasEntity) o;
 
         if (id != that.id) return false;
-        if (fechaClienteVenta != null ? !fechaClienteVenta.equals(that.fechaClienteVenta) : that.fechaClienteVenta != null) return false;
+        if (fecha != null ? !fecha.equals(that.fecha) : that.fecha != null) return false;
         if (montoTotal != null ? !montoTotal.equals(that.montoTotal) : that.montoTotal != null) return false;
         if (nombreCliente != null ? !nombreCliente.equals(that.nombreCliente) : that.nombreCliente != null)
             return false;
         if (numero != null ? !numero.equals(that.numero) : that.numero != null) return false;
-        if (rucClienteVenta != null ? !rucClienteVenta.equals(that.rucClienteVenta) : that.rucClienteVenta != null) return false;
+        if (rucCliente != null ? !rucCliente.equals(that.rucCliente) : that.rucCliente != null) return false;
 
         return true;
     }
@@ -105,8 +105,8 @@ public class VentasEntity {
         result = 31 * result + (numero != null ? numero.hashCode() : 0);
         result = 31 * result + (montoTotal != null ? montoTotal.hashCode() : 0);
         result = 31 * result + (nombreCliente != null ? nombreCliente.hashCode() : 0);
-        result = 31 * result + (rucClienteVenta != null ? rucClienteVenta.hashCode() : 0);
-        result = 31 * result + (fechaClienteVenta != null ? fechaClienteVenta.hashCode() : 0);
+        result = 31 * result + (rucCliente != null ? rucCliente.hashCode() : 0);
+        result = 31 * result + (fecha != null ? fecha.hashCode() : 0);
         return result;
     }
 }

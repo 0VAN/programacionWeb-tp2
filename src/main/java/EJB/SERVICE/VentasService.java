@@ -75,8 +75,8 @@ public class VentasService {
 
         Query q = entityManager.createQuery("select v from VentasEntity v " +
                 "where nombreCliente like CONCAT(:nombre, '%') and numero like CONCAT(:numero, '%') " +
-                "and montoTotal like CONCAT(:monto, '%') and rucClienteVenta like CONCAT(:ruc, '%') " +
-                "and fechaClienteVenta like CONCAT(:fecha, '%') ");
+                "and montoTotal like CONCAT(:monto, '%') and rucCliente like CONCAT(:ruc, '%') " +
+                "and fecha like CONCAT(:fecha, '%') ");
 
         if(isValid(nombre)) {
             q.setParameter("nombre", nombre);

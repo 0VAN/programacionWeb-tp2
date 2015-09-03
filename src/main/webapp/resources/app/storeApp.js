@@ -14,11 +14,11 @@ function listSalesController() {
     var vm = this;
     vm.listConfig = {
         columns: [
-            {name: 'Numero', property: 'numero', visible: true, sortable: true, searchable: true},
-            {name: 'Monto total', property: 'montoTotal', visible: true, sortable: true, searchable: true},
-            {name: 'Nombre del cliente', property: 'nombreCliente', visible: true, sortable: true, searchable: true},
-            {name: 'RUC del cliente', property: 'rucCliente', visible: true, sortable: false, searchable: true},
-            {name: 'Fecha', property: 'fecha', visible: true, sortable: true, searchable: true}
+            {name: 'Numero', property: 'numero', search: 'numero', visible: true, sortable: true, searchable: true},
+            {name: 'Monto total', property: 'montoTotal', search: 'monto_total', visible: true, sortable: true, searchable: true},
+            {name: 'Nombre del cliente', property: 'nombreCliente', search: 'nombre_cliente', visible: true, sortable: true, searchable: true},
+            {name: 'RUC del cliente', property: 'rucCliente', search: 'ruc_cliente', visible: true, sortable: false, searchable: true},
+            {name: 'Fecha', property: 'fecha', search: 'fecha', visible: true, sortable: true, searchable: true}
         ],
         URL: 'http://localhost:8080/restService/service/ventas',
         globalSearch: true,
