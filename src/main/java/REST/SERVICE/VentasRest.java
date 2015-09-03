@@ -18,16 +18,12 @@ import java.util.logging.Logger;
 @Path("/ventas")
 public class VentasRest {
 
-    // Tipo de Ordenacion
-    private static final String ASC = "asc";
-    private static final String DESC = "desc";
-
-    // Nombre de las columnas
-    private static final String nombreCliente = "nombre_cliente";
-    private static final String fecha = "fecha";
-    private static final String montoTotal = "monto_total";
-    private static final String rucCliente = "ruc_cliente";
-    private static final String numero = "numero";
+    // Nombre de las columnas para la ordenación
+    private static final String nombreClienteOrden = "nombre_cliente";
+    private static final String fechaOrden = "fecha";
+    private static final String montoTotalOrden = "monto_total";
+    private static final String rucClienteOrden = "ruc_cliente";
+    private static final String numeroOrden = "numero";
 
     // Nombre de columnas para filtro
     private static final String byNombreCliente = "by_nombre_cliente";
@@ -61,9 +57,13 @@ public class VentasRest {
             @QueryParam(byNumero) String numeroVenta,
             @QueryParam(byMontoTotal) String montoVenta,
             @QueryParam(byRucCliente) String rucVenta,
-            @QueryParam(byAllAttributes) String allAttributes) {
-
-
+            @QueryParam(byAllAttributes) String allAttributes,
+            @QueryParam(nombreClienteOrden) String nombreOrden,
+            @QueryParam(montoTotalOrden) String montoOrden,
+            @QueryParam(numeroOrden) String numeroOrd,
+            @QueryParam(fechaOrden) String fechaOrd,
+            @QueryParam(rucClienteOrden) String rucOrden)
+    {
         try {
             return Response.status(200).entity(ventasService.createQuery(nombreClienteVenta, fechaVenta, numeroVenta,
                     montoVenta, rucVenta, allAttributes )).build();

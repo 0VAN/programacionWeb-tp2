@@ -6,12 +6,7 @@ import javax.persistence.*;
 @NamedQueries(value = {
         @NamedQuery(name = "ventas.findAll", query = "select v from VentasEntity v"),
         @NamedQuery(name = "ventas.findById", query = "select v from VentasEntity v where v.id=:id"),
-        @NamedQuery(name = "ventas.findClienteAsc", query = "select v from VentasEntity v order by v.nombreCliente"),
-        @NamedQuery(name = "ventas.findClienteDesc", query = "select v from VentasEntity v order by v.nombreCliente DESC "),
-        @NamedQuery(name = "ventas.getTotalCount", query = "select count(v) from VentasEntity v"),
-
 })
-
 @Table(name = "ventas", schema = "public", catalog = "ventas")
 public class VentasEntity {
     private int id;
