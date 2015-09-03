@@ -78,7 +78,7 @@ public class VentasService {
                 "and montoTotal like CONCAT(:monto, '%') and rucCliente like CONCAT(:ruc, '%') " +
                 "and fecha like CONCAT(:fecha, '%') ");
 
-        if(isValid(nombre)) {
+        if(nombre.equals("") || isValid(nombre)) {
             q.setParameter("nombre", nombre);
         }else if(isValid(allAttributes)){
             q.setParameter("nombre", allAttributes);
