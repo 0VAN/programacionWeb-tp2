@@ -1,7 +1,6 @@
 package EJB.SERVICE;
 
 import JPA.MODEL.VentasEntity;
-import antlr.StringUtils;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -14,20 +13,16 @@ import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.util.List;
 
-/**
- * Created by alex on 31/08/15.
- */
 @Stateless
 public class VentasService {
 
     // Variables de Ordenación
     private static final String ASC = "asc";
-    private static final String DESC = "desc";
 
     // Parámetros del query
     private static final String montoColumn = "monto";
     private static final String numeroColumn = "numero";
-    private static final String fechaColumn = "fecha";
+    private static final String fechaColumn = "f";
     private static final String rucColumn = "ruc";
     private static final String nombreColumn = "nombre";
 
@@ -61,10 +56,25 @@ public class VentasService {
 
 
     /**
-     * Recupera todas las ventas del cliente dado como parametro
+     * Metodo que crea la consulta a la base de datos, recibe todos los parametros de la URL, y de acuerdo a ellos
+     * construye el HQL.
      *
+     * @param nombre    Valor del nombre de cliente
+     * @param f         Fecha de la venta
+     * @param numero    Numero de Venta
+     * @param monto     Monto total de ventas
+     * @param ruc       Ruc del Cliente
+     * @param allAttributes Filtro Global
+     * @param nombreOrden   Ordenacion por nombre
+     * @param montoOrden    Ordenacion por monto
+     * @param numeroOrd     Ordenacion por numero
+     * @param fechaOrd      Ordenacion por fecha
+     * @param rucOrden      Ordenacion por RUC del cliente
+     *
+     * @return Lista de las ventas que cumplen con los parametros especificados
      */
-    public List<VentasEntity> createQueryByParameter(String nombre, String fecha, String numero, String monto, String ruc, String allAttributes,
+    @SuppressWarnings("unchecked")
+    public List<VentasEntity> createQueryByParameter(String nombre, String f, String numero, String monto, String ruc, String allAttributes,
     String nombreOrden,String montoOrden, String numeroOrd, String fechaOrd, String rucOrden) {
 
         // Si se utiliza el filtrado global, se le otorga mayor prioridad que al resto de los filtros
@@ -72,8 +82,8 @@ public class VentasService {
 
             Query q = entityManager.createQuery("select v from VentasEntity v " +
                     "where nombreCliente like CONCAT(:nombre, '%') or numero like CONCAT(:numero, '%') " +
-                    "or montoTotal like CONCAT(:monto, '%') or rucClienteVenta like CONCAT(:ruc, '%') " +
-                    "or fechaClienteVenta like CONCAT(:fecha, '%')");
+                    "or montoTotal like CONCAT(:monto, '%') or rucCliente like CONCAT(:ruc, '%') " +
+                    "or fecha like CONCAT(:f, '%')");
 
             setParameterQuery(q, nombreColumn, allAttributes);
             setParameterQuery(q, montoColumn, allAttributes);
@@ -91,16 +101,17 @@ public class VentasService {
 
         Expression<String> pathNombre = ventas.get("nombreCliente");
         Expression<String> pathMonto = ventas.get("montoTotal");
-        Expression<String> pathFecha = ventas.get("fechaClienteVenta");
-        Expression<String> pathRuc = ventas.get("rucClienteVenta");
+        Expression<String> pathFecha = ventas.get("fecha");
+        Expression<String> pathRuc = ventas.get("rucCliente");
         Expression<String> pathNumero = ventas.get("numero");
 
         if(isValid(nombre)) {
             criteria.where(cb.like(pathNombre, nombre.concat("%")));
+
         }
 
-        if(isValid(fecha)) {
-            criteria.where(cb.like(pathFecha, fecha.concat("%")));
+        if(isValid(f)) {
+            criteria.where(cb.like(pathFecha, f.concat("%")));
         }
 
         if(isValid(monto)) {
@@ -164,14 +175,16 @@ public class VentasService {
      * al servidor.
      *
      * @param nombre        Valor del nombre del cliente
-     * @param fecha         Valor de la fecha de la venta
+     * @param f             Valor de la fecha de la venta
      * @param numero        Valor del numero de la venta
      * @param monto         Valor del monto de venta
      * @param ruc           Valor del RUC del Cliente
      * @param allAttributes Valor del filtrado de todas las columnas
      * @return Recupera todas las ventas que coincidan con los datos proveídos
+     *
      */
-    public List<VentasEntity> createQuery(String nombre, String fecha, String numero, String monto, String ruc, String allAttributes) {
+    @SuppressWarnings("unchecked")
+    public List<VentasEntity> createQuery(String nombre, String f, String numero, String monto, String ruc, String allAttributes) {
 
         Query q;
 
@@ -180,8 +193,8 @@ public class VentasService {
 
             q = entityManager.createQuery("select v from VentasEntity v " +
                     "where nombreCliente like CONCAT(:nombre, '%') or numero like CONCAT(:numero, '%') " +
-                    "or montoTotal like CONCAT(:monto, '%') or rucClienteVenta like CONCAT(:ruc, '%') " +
-                    "or fechaClienteVenta like CONCAT(:fecha, '%')");
+                    "or montoTotal like CONCAT(:monto, '%') or rucCliente like CONCAT(:ruc, '%') " +
+                    "or fecha like CONCAT(:fecha, '%')");
 
             q.setParameter(nombreColumn, allAttributes);
             q.setParameter(fechaColumn, allAttributes);
@@ -194,13 +207,13 @@ public class VentasService {
 
         q = entityManager.createQuery("select v from VentasEntity v " +
                 "where nombreCliente like CONCAT(:nombre, '%') and numero like CONCAT(:numero, '%') " +
-                "and montoTotal like CONCAT(:monto, '%') and rucClienteVenta like CONCAT(:ruc, '%') " +
-                "and fechaClienteVenta like CONCAT(:fecha, '%') ");
+                "and montoTotal like CONCAT(:monto, '%') and rucCliente like CONCAT(:ruc, '%') " +
+                "and fecha like CONCAT(:fecha, '%') ");
 
         setParameterQuery(q, nombreColumn, nombre);
         setParameterQuery(q, montoColumn, monto);
         setParameterQuery(q, rucColumn, ruc);
-        setParameterQuery(q, fechaColumn, fecha);
+        setParameterQuery(q, fechaColumn, f);
         setParameterQuery(q, numeroColumn, numero);
 
         return q.getResultList();

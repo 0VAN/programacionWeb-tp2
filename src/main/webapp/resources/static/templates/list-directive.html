@@ -19,7 +19,7 @@
                             <div class="ui icon input">
                                 <input class="prompt" type="text" placeholder="{{column.name}}..."
                                        data-ng-model="searchValue"
-                                       data-ng-change="applyFilter(searchValue,column.property)">
+                                       data-ng-change="applyFilter(searchValue,column.search)">
                                 <i class="search icon disabled"></i>
                             </div>
                             <span data-ng-if="column.sortable">
